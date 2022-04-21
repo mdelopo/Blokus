@@ -109,7 +109,7 @@ public:
      *
      * Hint: We can call the rotatePieceClockwise method here.
      *
-     * @param x the row of the square to be returned.
+     * @param orientation the orientation of the square to be returned.
      */
     void rotatePiece(char orientation);
 

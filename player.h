@@ -21,7 +21,7 @@ public:
      * Initializes a player setting the index and the name. The numPlacedPieces variable is also initialized to zero.
      * Finally, the createPieces method must be called to create all the pieces of the player.
      *
-     * @param playerId the name of the player.
+     * @param playerId the id of the player.
      */
     Player(int playerId);
 
