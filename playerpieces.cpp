@@ -166,16 +166,17 @@ void Player::printAvailablePieces(){
             availablePieces[j++] = pieces[i];
     }
 
-    if (numAvailablePieces >= 7){
+    if (numAvailablePieces > 7){
         printPiecesSideBySide(availablePieces, 0, 7);
-        if (numAvailablePieces >= 14){
+        if (numAvailablePieces > 14){
             printPiecesSideBySide(availablePieces, 7, 14);
             printPiecesSideBySide(availablePieces, 14, numAvailablePieces);
         }
+        else
+            printPiecesSideBySide(availablePieces, 7, numAvailablePieces);
     }
-    else{
+    else
         printPiecesSideBySide(availablePieces, 0, numAvailablePieces);
-    }
 }
 
 Move Player::placePiece(Board board){
