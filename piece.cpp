@@ -2,99 +2,124 @@
 
 // TODO: Implement here the methods of Piece
 
-Piece::Piece(){
-id=-1;
-pieceSize=5;
-player='-';
-placed=false;
+Piece::Piece()
+{
+    id=-1;
+    pieceSize=5;
+    player='-';
+    placed=false;
 }
 
-Piece::Piece(int pieceId, char piecePlayer, char pieceSquares[5][5]){
-pieceSize=5;
-placed=false;
-player=piecePlayer;
-id=pieceId;
+Piece::Piece(int pieceId, char piecePlayer, char pieceSquares[5][5])
+{
+    pieceSize=5;
+    placed=false;
+    player=piecePlayer;
+    id=pieceId;
 
-for(int i=0; i<pieceSize;i++){
-    for(int j=0; j<pieceSize; j++){
-        squares[i][j].setCoordinates(i,j);
-        if(pieceSquares[i][j]!='-'){
+    for(int i=0; i<pieceSize; i++)
+    {
+        for(int j=0; j<pieceSize; j++)
+        {
+            squares[i][j].setCoordinates(i,j);
+            if(pieceSquares[i][j]!='-')
+            {
                 squares[i][j].addPiece(pieceSquares[i][j]);
+            }
         }
     }
 }
+
+int Piece::getId()
+{
+    return id;
 }
 
-int Piece::getId(){
-return id;
+char Piece::getPlayer()
+{
+    return player;
 }
 
-char Piece::getPlayer(){
-return player;
+void Piece::setPlaced()
+{
+    placed=true;
 }
 
-void Piece::setPlaced(){
-placed=true;
+bool Piece::isPlaced()
+{
+    return placed;
 }
 
-bool Piece::isPlaced(){
-return placed;
+int Piece::getSize()
+{
+    return pieceSize;
 }
 
-int Piece::getSize(){
-return pieceSize;
+Square Piece::getSquare(int x, int y)
+{
+    return squares[x][y];
 }
 
-Square Piece::getSquare(int x, int y){
-return squares[x][y];
+bool Piece::squareHasPiece(int x, int y)
+{
+    if(squares[x][y].getPlayer()=='#' || squares[x][y].getPlayer()=='O') return true;
+    else return false;
 }
 
-bool Piece::squareHasPiece(int x, int y){
-if(squares[x][y].getPlayer()=='#' || squares[x][y].getPlayer()=='O') return true;
-else return false;
-}
-
-void Piece::rotatePieceClockwise(){
-Square temporary[5][5];
-for(int i=0; i<5; i++){
-    for(int j=0; j<5; j++){
-        temporary[i][j].setCoordinates(i,j);
-        temporary[i][j].addPiece(squares[i][j].getPlayer());
+void Piece::rotatePieceClockwise()
+{
+    Square temporary[5][5];
+    for(int i=0; i<5; i++)
+    {
+        for(int j=0; j<5; j++)
+        {
+            temporary[i][j].setCoordinates(i,j);
+            temporary[i][j].addPiece(squares[i][j].getPlayer());
+        }
+    }
+    for(int i=0; i<5; i++)
+    {
+        for(int j=0; j<5; j++)
+        {
+            if(temporary[i][j].getPlayer()!='-') squares[j][4-i].addPiece(temporary[i][j].getPlayer());
+            else squares[j][4-i].addPiece('-');
+        }
     }
 }
-for(int i=0; i<5; i++){
-    for(int j=0; j<5; j++){
-        if(temporary[i][j].getPlayer()!='-') squares[j][4-i].addPiece(temporary[i][j].getPlayer());
-        else squares[j][4-i].addPiece('-');
-}
-}
-}
 
-void Piece::rotatePiece(char orientation){
-if(orientation=='r') rotatePieceClockwise();
-else if(orientation=='d') {
-    rotatePieceClockwise();
-    rotatePieceClockwise();
-}
-else if (orientation=='l'){
-    rotatePieceClockwise();
-    rotatePieceClockwise();
-    rotatePieceClockwise();
-}
-}
-
-void Piece::flipPiece(){
-Square temporary[5][5];
-for(int i=0; i<5; i++){
-    for(int j=0; j<5; j++){
-        temporary[i][j].setCoordinates(i,j);
-        temporary[i][j].addPiece(squares[i][j].getPlayer());
+void Piece::rotatePiece(char orientation)
+{
+    if(orientation=='r') rotatePieceClockwise();
+    else if(orientation=='d')
+    {
+        rotatePieceClockwise();
+        rotatePieceClockwise();
+    }
+    else if (orientation=='l')
+    {
+        rotatePieceClockwise();
+        rotatePieceClockwise();
+        rotatePieceClockwise();
     }
 }
-for(int i=0; i<5; i++){
-    for(int j=0; j<5; j++){
-        if(temporary[i][j].getPlayer()!='-') squares[i][4-j].addPiece(temporary[i][j].getPlayer());
-        else squares[i][4-j].addPiece('-');
-}
-}
+
+void Piece::flipPiece()
+{
+    Square temporary[5][5];
+    for(int i=0; i<5; i++)
+    {
+        for(int j=0; j<5; j++)
+        {
+            temporary[i][j].setCoordinates(i,j);
+            temporary[i][j].addPiece(squares[i][j].getPlayer());
+        }
+    }
+    for(int i=0; i<5; i++)
+    {
+        for(int j=0; j<5; j++)
+        {
+            if(temporary[i][j].getPlayer()!='-') squares[i][4-j].addPiece(temporary[i][j].getPlayer());
+            else squares[i][4-j].addPiece('-');
+        }
+    }
 }
