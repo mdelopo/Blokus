@@ -64,8 +64,8 @@ for(int i=0; i<5; i++){
 }
 for(int i=0; i<5; i++){
     for(int j=0; j<5; j++){
-        if(temporary[i][j].getPlayer()!='-') squares[4-j][i].addPiece(temporary[i][j].getPlayer());
-        else squares[4-j][i].addPiece('-');
+        if(temporary[i][j].getPlayer()!='-') squares[j][4-i].addPiece(temporary[i][j].getPlayer());
+        else squares[j][4-i].addPiece('-');
 }
 }
 }
