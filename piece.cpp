@@ -15,11 +15,12 @@ placed=false;
 player=piecePlayer;
 id=pieceId;
 
-for(int i=0; i<5;i++){
-    for(int j=0; j<5; j++){
+for(int i=0; i<pieceSize;i++){
+    for(int j=0; j<pieceSize; j++){
         squares[i][j].setCoordinates(i,j);
-        if(pieceSquares[i][j]=='#' || pieceSquares[i][j]=='O')squares[i][j].addPiece(pieceSquares[i][j]);
-        else squares[i][j].addPiece('-');
+        if(pieceSquares[i][j]!='-'){
+                squares[i][j].addPiece(pieceSquares[i][j]);
+        }
     }
 }
 }
