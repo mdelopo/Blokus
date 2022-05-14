@@ -7,11 +7,11 @@ Move::Move(Piece movePiece, int moveX, int moveY, char moveOrientation, char mov
     movePiece.setPlaced();
     x=moveX;
     y=moveY;
-    orientation=moveOrientation;
-    flip=moveFlip;
+    orientation=moveOrientation;    //initializes a move with piece movePiece,based on the coordinates of the top left square moveX
+    flip=moveFlip;                  //and moveY, orientation moveOrientation and flip moveFlip
     piece=movePiece;
 }
-
+                                    //getters, return the values
 Piece Move::getPiece()
 {
     return piece;
