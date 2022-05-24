@@ -1,125 +1,126 @@
+#include <iostream>
 #include "piece.h"
 
-// TODO: Implement here the methods of Piece
-
-Piece::Piece()
-{
-    id=-1;
-    pieceSize=5;
-    player='-';
-    placed=false;
+Piece::Piece(int id, char player, Square*** squares, int sizeX, int sizeY) {
+    this->id = id;
+    this->player = player;
+    this->squares = squares;
+    this->sizeX = sizeX;
+    this->sizeY = sizeY;
+    placed = false;
 }
 
-Piece::Piece(int pieceId, char piecePlayer, char pieceSquares[5][5])
-{
-    pieceSize=5;
-    placed=false;
-    player=piecePlayer;
-    id=pieceId;
+Piece::~Piece(){
+    deleteSquares();
+}
 
-    for(int i=0; i<pieceSize; i++)
-    {
-        for(int j=0; j<pieceSize; j++)
-        {
-            squares[i][j].setCoordinates(i,j);          //cycles through the 5x5 array and copies the character of the
-            if(pieceSquares[i][j]!='-')                 //player to the squares that form the piece
-            {
-                squares[i][j].addPiece(pieceSquares[i][j]);
-            }
-        }
+void Piece::deleteSquares(){
+    for (int i = 0; i < sizeX; i++) {
+        for(int j = 0; j < sizeY; j++)
+            delete squares[i][j];
+        delete[] squares[i];
     }
+    delete[] squares;
 }
-                                                        //getters, return the values
-int Piece::getId()
-{
+
+int Piece::getId() {
     return id;
 }
 
-char Piece::getPlayer()
-{
+char Piece::getPlayer() {
     return player;
 }
 
-void Piece::setPlaced()
-{
-    placed=true;
+void Piece::setPlaced(bool placed){
+    this->placed = placed;
 }
 
-bool Piece::isPlaced()
-{
+void Piece::setPlaced() {
+    placed = true;
+}
+
+bool Piece::isPlaced() {
     return placed;
 }
 
-int Piece::getSize()
-{
-    return pieceSize;
+int Piece::getSizeX(){
+    return sizeX;
 }
 
-Square Piece::getSquare(int x, int y)
-{
+int Piece::getSizeY(){
+    return sizeY;
+}
+
+Square* Piece::getSquare(int x, int y) {
     return squares[x][y];
 }
 
-bool Piece::squareHasPiece(int x, int y)
-{
-    if(squares[x][y].getPlayer()=='#' || squares[x][y].getPlayer()=='O') return true;
-    else return false;
+bool Piece::squareHasPiece(int x, int y) {
+    return squares[x][y]->hasPiece();
 }
 
-void Piece::rotatePieceClockwise()
-{
-    Square temporary[5][5];
-    for(int i=0; i<5; i++)                          //creates a temporary 5x5 array of squares and copies its contents
-    {
-        for(int j=0; j<5; j++)
-        {
-            temporary[i][j].setCoordinates(i,j);
-            temporary[i][j].addPiece(squares[i][j].getPlayer());
-        }
+void Piece::rotatePieceClockwise() {
+    Square*** newSquares = new Square**[sizeY];
+    for (int j = 0; j < sizeY; j++)
+        newSquares[j] = new Square*[sizeX];
+    for (int i = 0; i < sizeX; i++){
+        for (int j = 0; j < sizeY; j++)
+            newSquares[j][sizeX - 1 - i] = new Square(j, sizeX - 1 - i, squares[i][j]->getPlayer());
     }
-    for(int i=0; i<5; i++)                          //replaces the original array of squares in order to rotate the piece
-    {                                               //rotation algorithm with loop for each square
-        for(int j=0; j<5; j++)
-        {
-            if(temporary[i][j].getPlayer()!='-') squares[j][4-i].addPiece(temporary[i][j].getPlayer());
-            else squares[j][4-i].addPiece('-');
-        }
-    }
+    deleteSquares();
+    squares = newSquares;
+    int temp = sizeX;
+    sizeX = sizeY;
+    sizeY = temp;
 }
 
-void Piece::rotatePiece(char orientation)
-{
-    if(orientation=='r') rotatePieceClockwise();    //calls the rotatePieceClockwise once
-    else if(orientation=='d')
-    {
+void Piece::rotatePiece(Orientation orientation) {
+    switch (orientation) {
+    case LEFT:
         rotatePieceClockwise();
-        rotatePieceClockwise();                     //calls the rotatePieceClockwise twice
-    }
-    else if (orientation=='l')
-    {
+    case DOWN:
         rotatePieceClockwise();
+    case RIGHT:
         rotatePieceClockwise();
-        rotatePieceClockwise();                     //calls the rotatePieceClockwise three times
+    case UP:
+        ;
     }
 }
 
-void Piece::flipPiece()
-{
-    Square temporary[5][5];                         //creates a temporary 5x5 array of squares and copies its contents
-    for(int i=0; i<5; i++)
-    {
-        for(int j=0; j<5; j++)
-        {
-            temporary[i][j].setCoordinates(i,j);
-            temporary[i][j].addPiece(squares[i][j].getPlayer());
+void Piece::flipPiece() {
+    for (int i = 0; i < sizeX; i++) {
+        for(int j = 0; j < sizeY / 2; j++){
+            char player = squares[i][j]->getPlayer();
+            squares[i][j]->addPiece(squares[i][sizeY-1-j]->getPlayer());
+            squares[i][sizeY-1-j]->addPiece(player);
         }
     }
-    for(int i=0; i<5; i++)                          //replaces the original array of squares in order to flip the piece
-    {                                               //newY=y, newX=4-x
-        for(int j=0; j<5; j++)
-        {
-            if(temporary[i][j].getPlayer()!='-') squares[i][4-j].addPiece(temporary[i][j].getPlayer());
-            else squares[i][4-j].addPiece('-');
+}
+
+string Piece::toString() {
+    stringstream sstm;
+    for(int i = 0; i < 5; i++) {
+        for(int j = 0; j < 4; j++){
+            if (i < sizeX && j < sizeY)
+                sstm << ((squares[i][j]->getPlayer() == '-') ? ' ' : squares[i][j]->getPlayer()) << " ";
+            else
+                sstm << "  ";
         }
+        if (i < sizeX && sizeY == 5)
+            sstm << ((squares[i][sizeY - 1]->getPlayer() == '-') ? ' ' : squares[i][sizeY - 1]->getPlayer()) << "\n";
+        else
+            sstm << " \n";
     }
+    string result = sstm.str();
+    return result;
+};
+
+Piece* Piece::deepCopy(){
+    Square*** newSquares = new Square**[sizeX];
+    for(int i = 0; i < sizeX; i++) {
+        newSquares[i] = new Square*[sizeY];
+        for(int j = 0; j < sizeY; j++)
+            newSquares[i][j] = new Square(i, j, squares[i][j]->getPlayer());
+    }
+    return new Piece(id, player, newSquares, sizeX, sizeY);
 }
