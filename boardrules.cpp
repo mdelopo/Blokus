@@ -48,16 +48,16 @@ bool Board::pieceCanBePlaced(Piece* piece, int x, int y)
         {
             if(piece->squareHasPiece(i,j))
             {
-                if(squareBelongsToPlayer(x+i-1,y+j-1,piece->getPlayer())) canBePlaced = true;
-                if(squareBelongsToPlayer(x+i-1,y+j+1,piece->getPlayer())) canBePlaced = true;
-                if(squareBelongsToPlayer(x+i+1,y+j-1,piece->getPlayer())) canBePlaced = true;
-                if(squareBelongsToPlayer(x+i+1,y+j+1,piece->getPlayer())) canBePlaced = true;
+                if(x+i-1>=0 && x+i-1<=13 && y+j-1>=0 && y+j-1<=13) if(squareBelongsToPlayer(x+i-1,y+j-1,piece->getPlayer())) canBePlaced = true;
+                if(x+i-1>=0 && x+i-1<=13 && y+j+1>=0 && y+j+1<=13) if(squareBelongsToPlayer(x+i-1,y+j+1,piece->getPlayer())) canBePlaced = true;
+                if(x+i+1>=0 && x+i+1<=13 && y+j-1>=0 && y+j-1<=13) if(squareBelongsToPlayer(x+i+1,y+j-1,piece->getPlayer())) canBePlaced = true;
+                if(x+i+1>=0 && x+i+1<=13 && y+j+1>=0 && y+j+1<=13) if(squareBelongsToPlayer(x+i+1,y+j+1,piece->getPlayer())) canBePlaced = true;
 
 
-                if(squareBelongsToPlayer(x+i-1,y+j,piece->getPlayer())) canBePlaced = false;
-                if(squareBelongsToPlayer(x+i+1,y+j,piece->getPlayer())) canBePlaced = false;
-                if(squareBelongsToPlayer(x+i,y+j-1,piece->getPlayer())) canBePlaced = false;
-                if(squareBelongsToPlayer(x+i,y+j+1,piece->getPlayer())) canBePlaced = false;
+                if(x+i-1>=0 && x+i-1<=13 && y+j>=0 && y+j<=13) if(squareBelongsToPlayer(x+i-1,y+j,piece->getPlayer())) return false;
+                if(x+i+1>=0 && x+i+1<=13 && y+j>=0 && y+j<=13) if(squareBelongsToPlayer(x+i+1,y+j,piece->getPlayer())) return false;
+                if(x+i>=0 && x+i<=13 && y+j-1>=0 && y+j-1<=13) if(squareBelongsToPlayer(x+i,y+j-1,piece->getPlayer())) return false;
+                if(x+i>=0 && x+i<=13 && y+j+1>=0 && y+j+1<=13) if(squareBelongsToPlayer(x+i,y+j+1,piece->getPlayer())) return false;
             }
         }
     }

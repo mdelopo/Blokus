@@ -18,16 +18,16 @@ Player::Player(int id)
         symbol = 'O';
     }
     numPieces = 21;
-    pieces = new Piece*[21];
+    pieces = new Piece*[numPieces];
     createPieces(); //asteraki
 }
 
 Player::~Player(){
-    for(int i=0; i<21; i++)
+    for(int i=0; i<numPieces; i++)
     {
         delete pieces[i];
     }
-    delete pieces;
+    delete [] pieces;
 }
 
 int Player::getId()
@@ -52,12 +52,21 @@ Piece* Player::getPiece(int index)
 
 int Player::getNumberOfPlacedPieces()
 {
-    return 21-numPieces;
+    int NumberOfPlacedPieces = 0;
+    for(int i=0; i<numPieces; i++)
+    {
+        if(pieces[i]->isPlaced()==true)
+        {
+                NumberOfPlacedPieces++;
+        }
+    }
+    return NumberOfPlacedPieces;
 }
 
 int Player::getNumberOfAvailablePieces()
 {
-    return numPieces;
+    int NumberOfAvailablePieces = numPieces-getNumberOfPlacedPieces();
+    return NumberOfAvailablePieces;
 }
 
 //HumanPlayer
@@ -71,11 +80,12 @@ HumanPlayer::HumanPlayer(int id, string name):Player(id)
     this->name = name;
 }
 
-//Computerplayer
+//ComputerPlayer
+ComputerPlayer::ComputerPlayer(int id):Player(id){}
 
 int ComputerPlayer::getRandomPieceId()
 {
-    return rand()%21;
+    return (rand()%numPieces)+1;
 }
 
 Orientation ComputerPlayer::getRandomOrientation()
@@ -87,6 +97,3 @@ Flip ComputerPlayer::getRandomFlip()
 {
     return (Flip)(rand()%2);
 }
-
-ComputerPlayer::ComputerPlayer(int id):Player(id){}
-
