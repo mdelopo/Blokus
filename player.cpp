@@ -18,11 +18,12 @@ Player::Player(int id)
         symbol = 'O';
     }
     numPieces = 21;
-    pieces = new Piece*[numPieces];
-    createPieces(); //asteraki
+    pieces = new Piece*[numPieces]; //dynamiki desmeysi mnimis gia ton Piece**
+    createPieces();
 }
 
-Player::~Player(){
+Player::~Player()
+{
     for(int i=0; i<numPieces; i++)
     {
         delete pieces[i];
@@ -53,11 +54,11 @@ Piece* Player::getPiece(int index)
 int Player::getNumberOfPlacedPieces()
 {
     int NumberOfPlacedPieces = 0;
-    for(int i=0; i<numPieces; i++)
+    for(int i=0; i<numPieces; i++) //eyresi arithmou kommation pou exoun paixtei
     {
         if(pieces[i]->isPlaced()==true)
         {
-                NumberOfPlacedPieces++;
+            NumberOfPlacedPieces++;
         }
     }
     return NumberOfPlacedPieces;
@@ -71,9 +72,7 @@ int Player::getNumberOfAvailablePieces()
 
 //HumanPlayer
 
-HumanPlayer::HumanPlayer(int id):Player(id)
-{
-}
+HumanPlayer::HumanPlayer(int id):Player(id) {}
 
 HumanPlayer::HumanPlayer(int id, string name):Player(id)
 {
@@ -81,11 +80,11 @@ HumanPlayer::HumanPlayer(int id, string name):Player(id)
 }
 
 //ComputerPlayer
-ComputerPlayer::ComputerPlayer(int id):Player(id){}
+ComputerPlayer::ComputerPlayer(int id):Player(id) {}
 
 int ComputerPlayer::getRandomPieceId()
 {
-    return (rand()%numPieces)+1;
+    return (rand()%numPieces)+1; // Tyxaios arithmos apo 1 ews 21
 }
 
 Orientation ComputerPlayer::getRandomOrientation()
