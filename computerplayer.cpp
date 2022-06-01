@@ -5,9 +5,26 @@ ComputerPlayer::ComputerPlayer(int id) : Player(id) {
 
 }
 
-int ComputerPlayer::evaluateBoard(Board* board) {
-    // TODO: Implement here the algorithm for evaluating the state of the board
-    return 0;
+int ComputerPlayer::evaluateBoard(Board* board)
+{
+    int scores[2], score = 0;
+    char symbols[2];
+    symbols[getId()] = getSymbol();
+    symbols[opponent->getId()] = opponent->getSymbol();
+
+    for(int id=0; id<2; id++) //epanalipsi gia tous 2 players
+    {
+        scores[id]=0;
+        for(int x=0; x<board->getSizeX(); x++) //katametrisi kateilimmenon square
+        {
+            for(int y=0; y<board->getSizeY(); y++)
+            {
+                if(board->squareBelongsToPlayer(x,y,symbols[id])) scores[id]+=1;
+            }
+        }
+    }
+    score = scores[getId()] - scores[opponent->getId()]; //ypologismos score
+    return score;
 }
 
 Move* ComputerPlayer::makeMove(Board* board) {

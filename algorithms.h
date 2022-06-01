@@ -11,8 +11,17 @@ using namespace std;
  * @param myArray the array to be shuffled.
  * @param myArraySize the size of the array to be shuffled.
  */
-template <class X> void shuffle(X** myArray, int myArraySize){
-    // TODO: Implement here the shuffle algorithm
+template <class X> void shuffle(X** myArray, int myArraySize)
+{
+    int j;
+    X* temp;
+    for(int i=myArraySize-1; i>0; i--)
+    {
+        j = rand()%(i+1); //tyxaios j sto diastima [0,i]
+        temp = myArray[j]; //typiki antimetathesi
+        myArray[j] = myArray[i];
+        myArray[i] = temp;
+    }
 }
 
 /**
@@ -31,7 +40,17 @@ template <class X> void shuffle(X** myArray, int myArraySize){
  * @return the element of myArray (type X*) that is in the corresponding position of the maximum score
  *         according to array myArrayScore.
  */
-template <class X> X* getElementWithMaxScore(X** myArray, int* myArrayScore, int myArraySize){
-    // TODO: Implement here the algorithm for the element with max score
-    return myArray[0];
+template <class X> X* getElementWithMaxScore(X** myArray, int* myArrayScore, int myArraySize)
+{
+    int maxScore = myArrayScore[0];
+    for(int i=1; i<myArraySize; i++) //eyresi maxScore
+    {
+        if(myArrayScore[i]>maxScore) maxScore = myArrayScore[i];
+    }
+    int j=0;
+    for(j=0; j<myArraySize; j++) //entopismos protou stoixeiou me maxScore
+    {
+        if(myArrayScore[j]==maxScore) break;
+    }
+    return myArray[j];
 }
