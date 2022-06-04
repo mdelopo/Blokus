@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "player.h"
+#include "smartplayer.h"
 
 /**
  * Class denoting the game.

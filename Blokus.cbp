@@ -47,6 +47,8 @@
 		<Unit filename="player.h" />
 		<Unit filename="playerpieces.cpp" />
 		<Unit filename="randomplayer.cpp" />
+		<Unit filename="smartplayer.cpp" />
+		<Unit filename="smartplayer.h" />
 		<Unit filename="square.cpp" />
 		<Unit filename="square.h" />
 		<Extensions>
