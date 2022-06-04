@@ -21,6 +21,7 @@ public:
      * @return an object of type Move containing a piece, its position, its orientation, and its flip.
      */
     Move* makeMove(Board* board);
+    int evaluateBoard(Board* board);
 };
 
 #endif // SMARTPLAYER_H
