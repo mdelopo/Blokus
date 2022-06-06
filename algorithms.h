@@ -52,5 +52,6 @@ template <class X> X* getElementWithMaxScore(X** myArray, int* myArrayScore, int
     {
         if(myArrayScore[j]==maxScore) break;
     }
+
     return myArray[j];
 }
